@@ -88,7 +88,12 @@ export default {
   margin-top: 20px;
   background-color: darkcyan;
 }
-td {
-  padding-right: 40px;
+
+td, th {
+  width: 25%;
+  border-bottom: 1px solid gray;
+  padding: 15px;
+  text-align: left;
 }
+
 </style>
