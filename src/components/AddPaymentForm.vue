@@ -1,13 +1,20 @@
 <template>
   <div>
-    <input type="text" v-model="date" placeholder="date" />
-    <input type="text" v-model="category" placeholder="category" />
-    <input type="text" v-model="value" placeholder="value" />
+    <input type="text" v-model="id" placeholder="id" />
+    <input type="date" v-model="date" placeholder="date" />
+    <select v-model="category" v-if="options">
+      <option v-for="option in options" :key="option">
+        {{ option }}
+      </option>
+    </select>
+    <input type="number" v-model.number="value" placeholder="value" />
     <button @click="onSave">Save</button>
   </div>
 </template>
 
 <script>
+import {mapActions, mapMutations, mapGetters} from 'vuex';
+
 export default {
   name: "AddPaymentForm",
   data() {
@@ -15,9 +22,11 @@ export default {
       date: "",
       category: "",
       value: "",
+      id: ''
     };
   },
   computed: {
+    ...mapGetters(["getDataFromForm"]),//!!!!!!!!!!!!!!!
     getCurrentDate() {
       const today = new Date();
       const day = today.getDate();
@@ -25,24 +34,32 @@ export default {
       const year = today.getFullYear();
       return `${day}.${month}.${year}`;
     },
+    options(){
+      return this.$store.getters.getCategories;
+    },
+    getId(){
+      return String(Math.random()*100);
+    }
   },
   methods: {
+    ...mapActions([
+      'fetchCategoryList', "addFromForm"
+    ]),
+    ...mapMutations([ "addDataFromForm"]),//!!!!!!!!!!!!!
     onSave() {
-      const { value, category } = this;
+      const { value, category} = this;
       const data = {
+        id: this.id || this.getId,
         date: this.date || this.getCurrentDate,
         category,
         value,
       };
-      // console.log('emit: addNewPayment', data);
       this.$emit("addNewPayment", data);
+      this.addFromForm(data); //!!!!!!!!!!!
     },
+  },
+  created() {
+    this.fetchCategoryList();
   },
 };
 </script>
-
-<style lang="sass">
-// .form {
-// display: none;
-// }
-</style>

@@ -3,7 +3,7 @@
     <table >
       <thead>
         <tr>
-          <th>#</th>
+          <th>Id</th>
           <th>Date</th>
           <th>Category</th>
           <th>Value</th>
@@ -11,7 +11,7 @@
       </thead>
       <tbody >
         <tr class="item" v-for="(item, idx) in list" :key="idx">
-          <td>{{ idx + 1 }}</td>
+          <td>{{ item.id }}</td>
           <td>{{ item.date }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.value }}</td>   
@@ -33,6 +33,3 @@ export default {
 };
 </script>
 
-
-<style scoped lang="scss">
-</style>

@@ -4,63 +4,83 @@
       <header>
         <div :class="[$style.tytle]">My Personal Cost</div>
       </header>
-      <button :class="[$style.newCostBtn]" @click="showFlag = !showFlag">ADD NEW COST +</button>
-      <div :class="[$style.content]">
-        <payments-display :list="paymentsList"/>
-      </div>
-
+      <button :class="[$style.newCostBtn]" @click="showFlag = !showFlag">
+        ADD NEW COST +
+      </button>
       <div>
-        <add-payment-form v-show="showFlag" @addNewPayment="addData"/>
+        <add-payment-form
+          :class="[$style.form]"
+          v-show="showFlag"
+          @addNewPayment="addData"
+        />
       </div>
+      <div :class="[$style.content]">
+        Total Value: {{ getFPV }}
+        <payments-display :class="[$style.list]" :list="currentElements" />
+        <button @click="onLoadNextPage">Load next page</button>
+      </div>
+      <pagination :cur="cur" :n="n" :length="paymentsList.length" @changePage="onChangePage"/>
     </div>
   </div>
 </template>
 
 <script>
-import AddPaymentForm from './components/AddPaymentForm.vue';
-import PaymentsDisplay from './components/PaymentsDisplay.vue';
+import { mapMutations, mapGetters, mapActions } from "vuex";
+import AddPaymentForm from "./components/AddPaymentForm.vue";
+import PaymentsDisplay from "./components/PaymentsDisplay.vue";
+import Pagination from "./components/Pagination.vue";
+
 export default {
-  name: 'App',
+  name: "App",
   components: {
     PaymentsDisplay,
-    AddPaymentForm
+    AddPaymentForm,
+    Pagination
   },
   data() {
     return {
-      paymentsList: [] ,
       showFlag: 0,
-    }
+      cur: 1,
+      n: 5,
+    };
   },
- 
-  methods: { 
+
+  methods: {
+    ...mapMutations(["setPaymentListData", "addDataToPaymentList"]),
+    ...mapActions([
+      "fetchData",
+    ]),
     addData(newPayment) {
       console.log(newPayment);
-      this.paymentsList.push(newPayment);
+      this.addDataToPaymentList(newPayment);
     },
-    fetchData() {
-      return [
-        {
-          date: '28.03.2020',
-          category: 'Food',
-          value: 169
-        },
-        {
-          date: '24.03.2020',
-          category: 'Transport',
-          value: 360
-        },
-        {
-          date: '24.03.2020',
-          category: 'Food',
-          value: 532
-        },
-      ]
+    onChangePage(page) {
+      console.log(page);
+      this.cur = page
+    },
+    onLoadNextPage(){
+       this.$store.dispatch('fetchData', 2);
     }
+   
+  },
+  computed: {
+    ...mapGetters({
+      paymentsList: "getPaymentsList",
+      
+      }),
+    getFPV() {
+      return this.$store.getters.getFullPaymentValue;
+    },
+    currentElements() {
+      const { n, cur } = this;
+      return this.paymentsList.slice(n * (cur - 1), n * (cur - 1) + n);
+    },
   },
   created() {
-    this.paymentsList = this.fetchData();
+    this.$store.dispatch('fetchData', 1);
+    console.log(this.paymentsList);  
   },
-}
+};
 </script>
 
 <style lang="scss" module>
@@ -75,6 +95,7 @@ export default {
 .wrapper {
   display: block;
   height: 100%;
+  margin: 20px;
 }
 .tytle {
   font-size: 20px;
@@ -83,12 +104,16 @@ export default {
   padding-top: 30px;
   margin-bottom: 20px;
 }
-
 .newCostBtn {
   margin-top: 20px;
   background-color: darkcyan;
 }
-td {
-  padding-right: 40px;
+td,
+th {
+  border-bottom: 1px solid gray;
+  padding: 15px 10px;
+  text-align: left;
 }
+
 </style>
+ 
