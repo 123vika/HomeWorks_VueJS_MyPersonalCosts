@@ -22,7 +22,7 @@ export default {
       date: "",
       category: "",
       value: "",
-      id: ''
+      id: 0
     };
   },
   computed: {
@@ -38,7 +38,7 @@ export default {
       return this.$store.getters.getCategories;
     },
     getId(){
-      return String(Math.random()*100);
+      return (Math.random()*100);
     }
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
         category,
         value,
       };
-      this.$emit("addNewPayment", data);
+      // this.$emit("addNewPayment", data);
       this.addFromForm(data); //!!!!!!!!!!!
     },
   },
