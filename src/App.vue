@@ -42,6 +42,7 @@ export default {
       showFlag: 0,
       cur: 1,
       n: 5,
+      numOfPage: 1,
     };
   },
 
@@ -59,9 +60,9 @@ export default {
       this.cur = page
     },
     onLoadNextPage(){
-       this.$store.dispatch('fetchData', 2);
+      this.numOfPage = this.numOfPage +1
+      this.$store.dispatch('fetchData', this.numOfPage);
     }
-   
   },
   computed: {
     ...mapGetters({
@@ -77,7 +78,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('fetchData', 1);
+    this.$store.dispatch('fetchData', this.numOfPage);
     console.log(this.paymentsList);  
   },
 };

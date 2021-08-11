@@ -9,5 +9,20 @@ const data = {
     { "id": 5, "date": "24.03.2020", "category": "Education", "value": 1500 },
     { "id": 6, "date": "25.03.2020", "category": "Food", "value": 200 }
   ],  
+  "page3": [
+    { "id": 7, "date": "23.03.2020", "category": "Entertaiment", "value": 969 },
+    { "id": 8, "date": "24.03.2020", "category": "Education", "value": 1500 },
+    { "id": 8, "date": "25.03.2020", "category": "Food", "value": 200 }
+  ],  
+  "page4": [
+    { "id": 10, "date": "23.03.2020", "category": "Entertaiment", "value": 209 },
+    { "id": 11, "date": "24.03.2020", "category": "Education", "value": 700 },
+    { "id": 12, "date": "25.03.2020", "category": "Food", "value": 250 }
+  ],  
+  "page5": [
+    { "id": 13, "date": "23.03.2020", "category": "Entertaiment", "value": 269 },
+    { "id": 14, "date": "24.03.2020", "category": "Education", "value": 1300 },
+    { "id": 15, "date": "25.03.2020", "category": "Food", "value": 2100 }
+  ],  
 };
 export {data};
