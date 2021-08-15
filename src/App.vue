@@ -1,85 +1,72 @@
 <template>
   <div id="app">
-    <div :class="[$style.wrapper]">
-      <header>
-        <div :class="[$style.tytle]">My Personal Cost</div>
-      </header>
-      <button :class="[$style.newCostBtn]" @click="showFlag = !showFlag">
-        ADD NEW COST +
-      </button>
-      <div>
-        <add-payment-form
-          :class="[$style.form]"
-          v-show="showFlag"
-          @addNewPayment="addData"
-        />
-      </div>
-      <div :class="[$style.content]">
-        Total Value: {{ getFPV }}
-        <payments-display :class="[$style.list]" :list="currentElements" />
-        <button @click="onLoadNextPage">Load next page</button>
-      </div>
-      <pagination :cur="cur" :n="n" :length="paymentsList.length" @changePage="onChangePage"/>
+    <div :class="[$style.links]">
+      <router-link to="/dashboard">Dashboard</router-link> /
+      <router-link to="/about">About</router-link> /
+      
+      <router-link to="/food">Food</router-link> /
+      <router-link to="/entertainment">Entertainment</router-link> /
+      <router-link to="/transport">Transport</router-link> /
+
+      <button @click="goToPage(404)">404</button>
+    </div>
+
+    <div class="content">
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from "vuex";
-import AddPaymentForm from "./components/AddPaymentForm.vue";
-import PaymentsDisplay from "./components/PaymentsDisplay.vue";
-import Pagination from "./components/Pagination.vue";
+// import PageDashboard from "./pages/PageDashboard.vue";
+// import PageAbout from "./pages/PageAbout.vue";
+// import Page404 from "./pages/Page404.vue";
 
 export default {
   name: "App",
-  components: {
-    PaymentsDisplay,
-    AddPaymentForm,
-    Pagination
-  },
   data() {
     return {
-      showFlag: 0,
-      cur: 1,
-      n: 5,
+      pageName: ''
+      // page: 'dashboard'
     };
   },
 
   methods: {
-    ...mapMutations(["setPaymentListData", "addDataToPaymentList"]),
-    ...mapActions([
-      "fetchData",
-    ]),
-    addData(newPayment) {
-      console.log(newPayment);
-      this.addDataToPaymentList(newPayment);
-    },
-    onChangePage(page) {
-      console.log(page);
-      this.cur = page
-    },
-    onLoadNextPage(){
-       this.$store.dispatch('fetchData', 2);
+    goToPage(pageName) {
+       this.$router.push({
+         name: pageName
+       });
     }
-   
+  //   // setPage() {
+  //   //   this.page = location.pathname.slice(1);
+  //   //   // this.page = location.hash.slice(1);
+  //   // }
   },
-  computed: {
-    ...mapGetters({
-      paymentsList: "getPaymentsList",
-      
-      }),
-    getFPV() {
-      return this.$store.getters.getFullPaymentValue;
-    },
-    currentElements() {
-      const { n, cur } = this;
-      return this.paymentsList.slice(n * (cur - 1), n * (cur - 1) + n);
-    },
-  },
-  created() {
-    this.$store.dispatch('fetchData', 1);
-    console.log(this.paymentsList);  
-  },
+  // computed: {
+
+  // },
+  // created() {
+  
+  // },
+  // mounted() {
+
+  //   // const links = document.querySelectorAll('a');
+  //   // console.log(links);
+  //   // links.forEach(link => {
+  //   //   link.addEventListener('click', event => {
+  //   //     event.preventDefault();
+  //   //     history.pushState({}, '', link.href);
+  //   //     this.setPage();
+  //   //     console.log(link.href);
+  //   //   });
+  //   //   window.addEventListener('popstate', this.setPage);
+  //   // });
+
+  //   // this.setPage();
+  //   // window.addEventListener('hashchange', () => {
+  //   //   this.setPage();
+  //   // });
+  // },
 };
 </script>
 
@@ -92,28 +79,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.wrapper {
-  display: block;
-  height: 100%;
-  margin: 20px;
-}
-.tytle {
-  font-size: 20px;
-}
-.content {
-  padding-top: 30px;
-  margin-bottom: 20px;
-}
-.newCostBtn {
-  margin-top: 20px;
-  background-color: darkcyan;
-}
-td,
-th {
-  border-bottom: 1px solid gray;
-  padding: 15px 10px;
-  text-align: left;
-}
 
+// .links,
+// .pages {
+//   margin: 20px;
+// }
 </style>
  
