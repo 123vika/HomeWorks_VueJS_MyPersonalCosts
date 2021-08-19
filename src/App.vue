@@ -3,70 +3,87 @@
     <div :class="[$style.links]">
       <router-link to="/dashboard">Dashboard</router-link> /
       <router-link to="/about">About</router-link> /
-      
       <router-link to="/food">Food</router-link> /
       <router-link to="/entertainment">Entertainment</router-link> /
       <router-link to="/transport">Transport</router-link> /
-
       <button @click="goToPage(404)">404</button>
     </div>
-
     <div class="content">
       <router-view />
     </div>
+    <modal-window-add-payment-form
+      v-if="modalShown"
+      :modalSettings="modalSettings"
+    />
+    <edit v-show="editShow" :editSetting="editSettings1" />
   </div>
 </template>
 
 <script>
-// import PageDashboard from "./pages/PageDashboard.vue";
-// import PageAbout from "./pages/PageAbout.vue";
-// import Page404 from "./pages/Page404.vue";
+import ModalWindowAddPaymentForm from "./components/ModalWindowAddPaymentForm";
+import Edit from "./components/Edit";
 
 export default {
   name: "App",
+  components: {
+    ModalWindowAddPaymentForm,
+    Edit,
+  },
   data() {
     return {
-      pageName: ''
-      // page: 'dashboard'
+      pageName: "",
+      modalShown: false,
+      modalSettings: {},
+      editSettings: 0,
+      editSettings1: 0,
+      editShow: false,
     };
   },
 
   methods: {
     goToPage(pageName) {
-       this.$router.push({
-         name: pageName
-       });
+      this.$router.push({
+        name: pageName,
+      });
+    },
+    onShow(settings) {
+      this.modalSettings = settings;
+      this.modalShown = true;
+    },
+    onHide() {
+      this.modalShown = false;
+      this.modalSettings = {};
+    },
+    onShowEdit(id) {
+      // TODO !!!argument
+      this.editSettings1 = id;
+      console.log("appEdit", id);
+      console.log("appEdit1", this.editSettings1);
+      this.editShow = true;
+    },
+    onHideEdit() {
+      this.editSettings = {};
+      this.editShow = false;
+    },
+    onEditTableHide() {
+      this.editShow = false;
     }
-  //   // setPage() {
-  //   //   this.page = location.pathname.slice(1);
-  //   //   // this.page = location.hash.slice(1);
-  //   // }
+   
   },
-  // computed: {
-
-  // },
-  // created() {
-  
-  // },
-  // mounted() {
-
-  //   // const links = document.querySelectorAll('a');
-  //   // console.log(links);
-  //   // links.forEach(link => {
-  //   //   link.addEventListener('click', event => {
-  //   //     event.preventDefault();
-  //   //     history.pushState({}, '', link.href);
-  //   //     this.setPage();
-  //   //     console.log(link.href);
-  //   //   });
-  //   //   window.addEventListener('popstate', this.setPage);
-  //   // });
-
-  //   // this.setPage();
-  //   // window.addEventListener('hashchange', () => {
-  //   //   this.setPage();
-  //   // });
-  // },
+  mounted() {
+    this.$modal.EventBus.$on("show", this.onShow);
+    this.$modal.EventBus.$on("hide", this.onHide);
+    this.$edit.EventBus.$on("showEdit", this.onShowEdit);
+    this.$edit.EventBus.$on("editTable", this.editTable);
+    this.$edit.EventBus.$on("editTable1", this.onEditTableHide);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShow);
+    this.$modal.EventBus.$off("hide", this.onHide);
+    this.$edit.EventBus.$off("showEdit", this.onShowEdit);
+    this.$edit.EventBus.$off("editTable", this.editTable);
+    this.$edit.EventBus.$off("editTable1", this.onEditTableHide);
+  },
 };
 </script>
 
@@ -79,10 +96,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
-// .links,
-// .pages {
-//   margin: 20px;
-// }
 </style>
  

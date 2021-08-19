@@ -1,18 +1,18 @@
 <template>
   <div>
     <div>
-      <input type="text" v-model="id" placeholder="id" />
-      <input type="date" v-model="date" placeholder="date" />
+      <input type="text" v-model="id" :placeholder="5" />
+      <input type="date" v-model="date" :placeholder="settings.date" />
       <select v-model="category" v-if="options">
         <option v-for="option in options" :key="option">
           {{ option }}
         </option>
       </select>
-      
-      <input type="number" v-model.number="value" placeholder="value" />
+
+      <input type="number" v-model.number="value" :placeholder="settings.value" />
+
       <button @click="onSave">Save</button>
     </div>
-
   </div>
 </template>
 
@@ -21,18 +21,23 @@ import { mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "AddPaymentForm",
-  props: ['select'],
+  props: {
+    settings: {
+      Type: Object,
+      default: null,
+    },
+  },
+
   data() {
     return {
       date: "",
       category: "",
       value: "",
-      id: 0,
-      
+      id: "",
     };
   },
   computed: {
-    ...mapGetters(["getDataFromForm",]),
+    ...mapGetters(["getDataFromForm"]),
     getCurrentDate() {
       const today = new Date();
       const day = today.getDate();
@@ -63,6 +68,19 @@ export default {
   },
   created() {
     this.fetchCategoryList();
+    console.log("add_payment_form setting =", this.settings);
+  },
+
+  updated() {
+    console.log("add_payment_form setting2 =", this.settings);
+
+    if (this.settings !== null) {
+      console.log("add_payment_form setting1 =", this.settings);
+      this.id = this.settings.id;
+      // this.date = this.settings.date;
+      this.category = this.settings.category;
+      this.value = this.settings.value;
+    }
   },
 };
 </script>

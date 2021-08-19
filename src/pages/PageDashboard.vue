@@ -7,10 +7,10 @@
     <button :class="[$style.newCostBtn]" @click="showFlag = !showFlag">
       ADD NEW COST +
     </button>
-  
+
     <div>
-        <input type="text" v-model="newCategory" placeholder="Enter category">
-        <button @click="addNewCategory">Add new category</button>
+      <input type="text" v-model="newCategory" placeholder="Enter category" />
+      <button @click="addNewCategory">Add new category</button>
     </div>
 
     <div>
@@ -18,13 +18,18 @@
         :class="[$style.form]"
         v-show="showFlag"
         @addNewPayment="addData"
+        :settings="settingsid"
       />
     </div>
+
     <div :class="[$style.content]">
       Total Value: {{ getFPV }}
       <payments-display :class="[$style.list]" :list="currentElements" />
       <button @click="onLoadNextPage">Load next page</button>
     </div>
+
+    <button @click="showPaymentFormFn">Add payment</button>
+
     <pagination
       :cur="cur"
       :n="n"
@@ -53,11 +58,18 @@ export default {
       cur: 1,
       n: 5,
       numOfPage: 1,
-      newCategory: '',
+      newCategory: "",
+      showPaymentForm: false,
+      modalSettings: "",
+      settingsid: {},
     };
   },
   methods: {
-    ...mapMutations(["setPaymentListData", "addDataToPaymentList", "addNewCategoryToList"]),
+    ...mapMutations([
+      "setPaymentListData",
+      "addDataToPaymentList",
+      "addNewCategoryToList",
+    ]),
     ...mapActions(["fetchData"]),
     addData(newPayment) {
       console.log(newPayment);
@@ -72,14 +84,23 @@ export default {
       this.$store.dispatch("fetchData", this.numOfPage);
     },
     addNewCategory() {
-      this.$store.commit('addNewCategoryToList', this.newCategory);
+      this.$store.commit("addNewCategoryToList", this.newCategory);
     },
-  //   showAddNewCategory(newCategory) {
-  //     this.addNewCategory();
-  //     if(thic.newCategory === 'other') {
-  //       this.addNewCategory();
-  //     };
-  //   }
+    showPaymentFormFn() {
+      this.$modal.show("addPayment", { header: "Add payment Form" });
+    },
+    onEditTable(editSetting) {
+      this.settingsid = editSetting;
+      this.showFlag = true;
+      console.log("dashboard", editSetting);
+    },
+
+    //   showAddNewCategory(newCategory) {
+    //     this.addNewCategory();
+    //     if(thic.newCategory === 'other') {
+    //       this.addNewCategory();
+    //     };
+    //   }
   },
   computed: {
     ...mapGetters({
@@ -95,11 +116,16 @@ export default {
   },
   async created() {
     await this.$store.dispatch("fetchData", this.numOfPage);
-    if(this.$route.params?.page) {
+    if (this.$route.params?.page) {
       this.onChangePage(Number(this.$route.params.page));
     }
   },
-  mounted() {},
+  mounted() {
+    this.$edit.EventBus.$on("editTable1", this.onEditTable);
+  },
+  beforeDestroy() {
+    this.$edit.EventBus.$off("editTable1", this.onEditTable);
+  },
 };
 </script>
 
