@@ -8,10 +8,10 @@
       ADD NEW COST +
     </button>
 
-    <div>
+    <!-- <div>
       <input type="text" v-model="newCategory" placeholder="Enter category" />
       <button @click="addNewCategory">Add new category</button>
-    </div>
+    </div> -->
 
     <div>
       <add-payment-form
@@ -27,6 +27,7 @@
       <payments-display :class="[$style.list]" :list="currentElements" />
       <button @click="onLoadNextPage">Load next page</button>
     </div>
+    <button @click="showAddCategoryForm">Add category</button>
 
     <button @click="showPaymentFormFn">Add payment</button>
 
@@ -68,13 +69,13 @@ export default {
     ...mapMutations([
       "setPaymentListData",
       "addDataToPaymentList",
-      "addNewCategoryToList",
+      // "addNewCategoryToList",
     ]),
     ...mapActions(["fetchData"]),
     addData(newPayment) {
       console.log(newPayment);
       this.addDataToPaymentList(newPayment);
-    },
+    }, 
     onChangePage(page) {
       console.log(page);
       this.cur = page;
@@ -83,21 +84,24 @@ export default {
       this.numOfPage = this.numOfPage + 1;
       this.$store.dispatch("fetchData", this.numOfPage);
     },
-    addNewCategory() {
-      this.$store.commit("addNewCategoryToList", this.newCategory);
-    },
+    // addNewCategory() {
+    //   this.$store.commit("addNewCategoryToList", this.newCategory);
+    // },
     showPaymentFormFn() {
-      this.$modal.show("addPayment", { header: "Add payment Form" });
+      this.$modal.show('AddPaymentForm', { header: "Add Payment Form"} );
     },
     onEditTable(editSetting) {
       this.settingsid = editSetting;
       this.showFlag = true;
-      console.log("dashboard", editSetting);
+      console.log('dashboard', editSetting);
     },
+    showAddCategoryForm() {
+      this.$modal.show('addCategory', { header: "Add new category form" });
 
+    }
     //   showAddNewCategory(newCategory) {
     //     this.addNewCategory();
-    //     if(thic.newCategory === 'other') {
+    //     if(this.newCategory === 'other') {
     //       this.addNewCategory();
     //     };
     //   }

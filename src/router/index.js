@@ -1,78 +1,86 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import PageDashboard from '../pages/PageDashboard';
-import PageAbout from '../pages/PageAbout';
-import Page404 from '../pages/Page404';
-import PageLogin from '../pages/PageLogin';
-import PageFoodCategory from '../pages/PageFoodCategory';
-import PageTransportCategory from '../pages/PageTransportCategory';
-import PageEntertainmentCategory from '../pages/PageEntertainmentCategory';
-
 
 Vue.use(Router);
-
-// export default new Router({
-  const router = new Router({
+// export default ({
+const router = new Router({
   mode: 'history',
   routes: [{
       path: '/',
-      component: PageDashboard,
-      name: 'MainPage'
+      component: () => import( /*webpackChunkName: "PageDashboard"*/ '../pages/PageDashboard'),
+      name: 'PageDashboard'
+    },
+    {
+      path: '/add/patment/:category/',
+      component: () => import( /*webpackChunkName: "AddDataFromUrl"*/ '../components/AddPaymentForm'),
+      // component: PageDashboard,
+      name: 'AddDataFromUrl'
     },
     {
       path: '/dashboard',
-      component: PageDashboard,
+      component: () => import( /*webpackChunkName: "Dashboard"*/ '../pages/PageDashboard'),
+      // component: PageDashboard,
       name: 'Dashboard'
     },
     {
       path: '/dashboard/:page',
-      component: PageDashboard,
+      component: () => import( /*webpackChunkName: "Login"*/ '../pages/PageDashboard'),
+      // component: PageDashboard,
       name: 'DashboardPageNumber'
     },
     {
       path: '/food',
-      component: PageFoodCategory,
+      component: () => import( /*webpackChunkName: "PageFoodCategory"*/ '../pages/PageFoodCategory'),
+      // component: PageFoodCategory,
       name: 'PageFoodCategory'
     },
-    {
-      path: '/transport',
-      component: PageTransportCategory,
-      name: 'PageTransportCategory'
-    },
+    // {
+    //   path: '/transport',
+    //   component: () => import( /*webpackChunkName: "PageTransportCategory"*/ '../pages/PageTransportCategory'),
+    //   // component: PageTransportCategory,
+    //   name: 'PageTransportCategory'
+    // },
     {
       path: '/entertainment',
-      component: PageEntertainmentCategory,
+      component: () => import( /*webpackChunkName: "PageEntertainmentCategory"*/ '../pages/PageEntertainmentCategory'),
+      // component: PageEntertainmentCategory,
       name: 'PageEntertainmentCategory'
     },
     {
       path: '/about',
-      component: PageAbout,
+      component: () => import( /*webpackChunkName: "About"*/ '../pages/PageAbout'),
+      // component: PageAbout,
       name: 'About'
     },
     {
       path: '/404',
-      component: Page404,
+      component: () => import( /*webpackChunkName: "404"*/ '../pages/Page404'),
+      // component: Page404,
       name: '404'
     },
     {
       path: '/auth',
-      component: PageLogin,
+      component: () => import( /*webpackChunkName: "Login"*/ '../pages/PageLogin'),
+      // component: PageLogin,
       name: 'login'
     },
     {
       path: '*',
-      component: Page404,
+      component: () => import( /*webpackChunkName: "Error"*/ '../pages/Page404'),
+      // component: Page404,
       name: 'Error'
     },
-    
+
   ]
 });
 
 const isAuth = true;
 router.beforeEach((to, from, next) => {
-  if(to.name !== 'login' && !isAuth) {
-    next({ name: 'login'});
-  }else{
+  if (to.name !== 'login' && !isAuth) {
+    next({
+      name: 'login'
+    });
+  } else {
     next();
   }
 });
@@ -82,7 +90,7 @@ const getTitleByRouteName = routeName => {
     'Dashboard': 'Page Dashboard',
     'About': 'Page About',
     '404': 'Not Found'
-  }[routeName];
+  } [routeName];
 };
 router.afterEach((to) => {
   document.title = getTitleByRouteName(to.name);

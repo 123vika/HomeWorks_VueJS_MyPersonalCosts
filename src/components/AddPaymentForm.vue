@@ -11,7 +11,7 @@
 
       <input type="number" v-model.number="value" :placeholder="settings.value" />
 
-      <button @click="onSave">Save</button>
+      <button @click="onSave" :disabled="!category">Save</button>
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(["getDataFromForm"]),
     getCurrentDate() {
       const today = new Date();
-      const day = today.getDate();
+      const day = today.getDate();// getDay()
       const month = today.getMonth() + 1;
       const year = today.getFullYear();
       return `${day}.${month}.${year}`;
@@ -64,15 +64,24 @@ export default {
         value,
       };
       this.addFromForm(data);
+      this.$store.commit('addDataToPaymentList', data)
+      
     },
   },
-  created() {
-    this.fetchCategoryList();
-    console.log("add_payment_form setting =", this.settings);
+  async created() {
+    await  this.fetchCategoryList();
+    if(this.$route.name === 'AddDataFromUrl'){
+      this.value = Number(this.$route.query?.value) || 0;
+      this.category = this.$route?.params?.category || '';
+      // this.$router.push('/dashboard')
+    }
+    // console.log("add_payment_form setting =", this.settings);
   },
-
+  mounted() {
+    
+  },
   updated() {
-    console.log("add_payment_form setting2 =", this.settings);
+    // console.log("add_payment_form setting2 =", this.settings);
 
     if (this.settings !== null) {
       console.log("add_payment_form setting1 =", this.settings);

@@ -5,29 +5,28 @@
       <router-link to="/about">About</router-link> /
       <router-link to="/food">Food</router-link> /
       <router-link to="/entertainment">Entertainment</router-link> /
-      <router-link to="/transport">Transport</router-link> /
+      <!-- <router-link to="/add/patment/">Add Data From Url</router-link> / -->
       <button @click="goToPage(404)">404</button>
     </div>
     <div class="content">
       <router-view />
     </div>
-    <modal-window-add-payment-form
-      v-if="modalShown"
-      :modalSettings="modalSettings"
-    />
+    <transition name="fade">
+      <modal-window-add-payment-form
+        v-if="modalShown"
+        :modalSettings="modalSettings"
+      />
+    </transition>
     <edit v-show="editShow" :editSetting="editSettings1" />
   </div>
 </template>
 
 <script>
-import ModalWindowAddPaymentForm from "./components/ModalWindowAddPaymentForm";
-import Edit from "./components/Edit";
-
 export default {
   name: "App",
   components: {
-    ModalWindowAddPaymentForm,
-    Edit,
+    ModalWindowAddPaymentForm: () => import('./components/ModalWindowAddPaymentForm'),
+    Edit: () => import('./components/Edit'),
   },
   data() {
     return {
@@ -57,8 +56,8 @@ export default {
     onShowEdit(id) {
       // TODO !!!argument
       this.editSettings1 = id;
-      console.log("appEdit", id);
-      console.log("appEdit1", this.editSettings1);
+      // console.log("appEdit", id);
+      // console.log("appEdit1", this.editSettings1);
       this.editShow = true;
     },
     onHideEdit() {
@@ -97,4 +96,11 @@ export default {
   margin-top: 60px;
 }
 </style>
- 
+ <style lang="scss">
+ .fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+ </style>
