@@ -4,8 +4,7 @@
       <router-link to="/dashboard">Dashboard</router-link> /
       <router-link to="/about">About</router-link> /
       <router-link to="/food">Food</router-link> /
-      <router-link to="/entertainment">Entertainment</router-link> /
-      <!-- <router-link to="/add/patment/">Add Data From Url</router-link> / -->
+    
       <button @click="goToPage(404)">404</button>
     </div>
     <div class="content">

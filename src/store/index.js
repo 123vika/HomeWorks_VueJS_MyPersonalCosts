@@ -72,6 +72,13 @@ export default new Vuex.Store({
       };
       commit("addDataFromForm", newData);
       // console.log(commit, newData, "I'm here");
+    },
+  
+
+    // For Test
+    addData({commit}, payload){
+      console.log(commit, payload);
+      // commit('addDataToPaymentList');
     }
-  }
+  },
 });

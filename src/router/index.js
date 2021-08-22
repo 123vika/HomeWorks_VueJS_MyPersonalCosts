@@ -40,12 +40,12 @@ const router = new Router({
     //   // component: PageTransportCategory,
     //   name: 'PageTransportCategory'
     // },
-    {
-      path: '/entertainment',
-      component: () => import( /*webpackChunkName: "PageEntertainmentCategory"*/ '../pages/PageEntertainmentCategory'),
-      // component: PageEntertainmentCategory,
-      name: 'PageEntertainmentCategory'
-    },
+    // {
+    //   path: '/entertainment',
+    //   component: () => import( /*webpackChunkName: "PageEntertainmentCategory"*/ '../pages/PageEntertainmentCategory'),
+    //   // component: PageEntertainmentCategory,
+    //   name: 'PageEntertainmentCategory'
+    // },
     {
       path: '/about',
       component: () => import( /*webpackChunkName: "About"*/ '../pages/PageAbout'),

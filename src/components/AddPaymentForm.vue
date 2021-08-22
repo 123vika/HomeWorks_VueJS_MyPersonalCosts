@@ -1,17 +1,18 @@
 <template>
   <div>
-    <div>
-      <input type="text" v-model="id" :placeholder="5" />
-      <input type="date" v-model="date" :placeholder="settings.date" />
-      <select v-model="category" v-if="options">
+    <div v-on:submit.prevent>
+      <input type="text" v-model="id" />
+      <input type="date" v-model="date" />
+      <!-- <select v-model="category" v-if="options">
         <option v-for="option in options" :key="option">
           {{ option }}
         </option>
-      </select>
+      </select> -->
 
-      <input type="number" v-model.number="value" :placeholder="settings.value" />
+      <input type="number" v-model.number="value" name="value" />
 
-      <button @click="onSave" :disabled="!category">Save</button>
+      <button @click="onSave" name="btnClick">Save</button>
+      <!-- :disabled="!category" -->
     </div>
   </div>
 </template>
@@ -31,63 +32,57 @@ export default {
   data() {
     return {
       date: "",
-      category: "",
-      value: "",
-      id: "",
+      // category: "",
+      value: "10",
+      id: "2",
     };
   },
   computed: {
     ...mapGetters(["getDataFromForm"]),
     getCurrentDate() {
       const today = new Date();
-      const day = today.getDate();// getDay()
+      const day = today.getDate(); // getDay()
       const month = today.getMonth() + 1;
       const year = today.getFullYear();
       return `${day}.${month}.${year}`;
     },
-    options() {
-      return this.$store.getters.getCategories;
-    },
+    // options() {
+    //   return this.$store.getters.getCategories;
+    // },
     getId() {
       return Math.random() * 100;
     },
   },
   methods: {
-    ...mapActions(["fetchCategoryList", "addFromForm"]),
+    ...mapActions(["fetchCategoryList", "addFromForm", "addDataToPaymentList"]),
     ...mapMutations(["addDataFromForm"]),
     onSave() {
       const { value, category } = this;
       const data = {
         id: this.id || this.getId,
         date: this.date || this.getCurrentDate,
-        category,
+        // category,
         value,
       };
       this.addFromForm(data);
-      this.$store.commit('addDataToPaymentList', data)
-      
+      this.addDataToPaymentList(data);
+      // this.$store.commit("addDataToPaymentList", data);
     },
   },
-  async created() {
-    await  this.fetchCategoryList();
-    if(this.$route.name === 'AddDataFromUrl'){
-      this.value = Number(this.$route.query?.value) || 0;
-      this.category = this.$route?.params?.category || '';
-      // this.$router.push('/dashboard')
-    }
-    // console.log("add_payment_form setting =", this.settings);
-  },
-  mounted() {
-    
-  },
+  // async created() {
+  //   await this.fetchCategoryList();
+  //   if (this.$route.name === "AddDataFromUrl") {
+  //     this.value = Number(this.$route.query?.value) || 0;
+  //     this.category = this.$route?.params?.category || "";
+  //   }
+  // },
+  mounted() {},
   updated() {
-    // console.log("add_payment_form setting2 =", this.settings);
-
     if (this.settings !== null) {
       console.log("add_payment_form setting1 =", this.settings);
       this.id = this.settings.id;
       // this.date = this.settings.date;
-      this.category = this.settings.category;
+      // this.category = this.settings.category;
       this.value = this.settings.value;
     }
   },
