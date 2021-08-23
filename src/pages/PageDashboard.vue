@@ -7,24 +7,30 @@
     <button :class="[$style.newCostBtn]" @click="showFlag = !showFlag">
       ADD NEW COST +
     </button>
-  
-    <div>
-        <input type="text" v-model="newCategory" placeholder="Enter category">
-        <button @click="addNewCategory">Add new category</button>
-    </div>
+
+    <!-- <div>
+      <input type="text" v-model="newCategory" placeholder="Enter category" />
+      <button @click="addNewCategory">Add new category</button>
+    </div> -->
 
     <div>
       <add-payment-form
         :class="[$style.form]"
         v-show="showFlag"
         @addNewPayment="addData"
+        :settings="settingsid"
       />
     </div>
+
     <div :class="[$style.content]">
       Total Value: {{ getFPV }}
       <payments-display :class="[$style.list]" :list="currentElements" />
       <button @click="onLoadNextPage">Load next page</button>
     </div>
+    <button @click="showAddCategoryForm">Add category</button>
+
+    <button @click="showPaymentFormFn">Add payment</button>
+
     <pagination
       :cur="cur"
       :n="n"
@@ -53,16 +59,23 @@ export default {
       cur: 1,
       n: 5,
       numOfPage: 1,
-      newCategory: '',
+      newCategory: "",
+      showPaymentForm: false,
+      modalSettings: "",
+      settingsid: {},
     };
   },
   methods: {
-    ...mapMutations(["setPaymentListData", "addDataToPaymentList", "addNewCategoryToList"]),
+    ...mapMutations([
+      "setPaymentListData",
+      "addDataToPaymentList",
+      // "addNewCategoryToList",
+    ]),
     ...mapActions(["fetchData"]),
     addData(newPayment) {
       console.log(newPayment);
       this.addDataToPaymentList(newPayment);
-    },
+    }, 
     onChangePage(page) {
       console.log(page);
       this.cur = page;
@@ -71,15 +84,27 @@ export default {
       this.numOfPage = this.numOfPage + 1;
       this.$store.dispatch("fetchData", this.numOfPage);
     },
-    addNewCategory() {
-      this.$store.commit('addNewCategoryToList', this.newCategory);
+    // addNewCategory() {
+    //   this.$store.commit("addNewCategoryToList", this.newCategory);
+    // },
+    showPaymentFormFn() {
+      this.$modal.show('AddPaymentForm', { header: "Add Payment Form"} );
     },
-  //   showAddNewCategory(newCategory) {
-  //     this.addNewCategory();
-  //     if(thic.newCategory === 'other') {
-  //       this.addNewCategory();
-  //     };
-  //   }
+    onEditTable(editSetting) {
+      this.settingsid = editSetting;
+      this.showFlag = true;
+      console.log('dashboard', editSetting);
+    },
+    showAddCategoryForm() {
+      this.$modal.show('addCategory', { header: "Add new category form" });
+
+    }
+    //   showAddNewCategory(newCategory) {
+    //     this.addNewCategory();
+    //     if(this.newCategory === 'other') {
+    //       this.addNewCategory();
+    //     };
+    //   }
   },
   computed: {
     ...mapGetters({
@@ -95,11 +120,16 @@ export default {
   },
   async created() {
     await this.$store.dispatch("fetchData", this.numOfPage);
-    if(this.$route.params?.page) {
+    if (this.$route.params?.page) {
       this.onChangePage(Number(this.$route.params.page));
     }
   },
-  mounted() {},
+  mounted() {
+    this.$edit.EventBus.$on("editTable1", this.onEditTable);
+  },
+  beforeDestroy() {
+    this.$edit.EventBus.$off("editTable1", this.onEditTable);
+  },
 };
 </script>
 
