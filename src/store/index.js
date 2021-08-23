@@ -76,9 +76,9 @@ export default new Vuex.Store({
   
 
     // For Test
-    addData({commit}, payload){
-      console.log(commit, payload);
-      // commit('addDataToPaymentList');
-    }
+    // addData({commit}, payload){
+    //   console.log(commit, payload);
+    //   // commit('addDataToPaymentList');
+    // }
   },
 });

@@ -3,16 +3,16 @@
     <div v-on:submit.prevent>
       <input type="text" v-model="id" />
       <input type="date" v-model="date" />
-      <!-- <select v-model="category" v-if="options">
+      <select v-model="category" v-if="options">
         <option v-for="option in options" :key="option">
           {{ option }}
         </option>
-      </select> -->
+      </select>
 
       <input type="number" v-model.number="value" name="value" />
 
-      <button @click="onSave" name="btnClick">Save</button>
-      <!-- :disabled="!category" -->
+      <button @click="onSave" :disabled="!category" name="btnClick">Save</button>
+      <!--  -->
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       date: "",
-      // category: "",
+      category: "",
       value: "10",
       id: "2",
     };
@@ -46,9 +46,9 @@ export default {
       const year = today.getFullYear();
       return `${day}.${month}.${year}`;
     },
-    // options() {
-    //   return this.$store.getters.getCategories;
-    // },
+    options() {
+      return this.$store.getters.getCategories;
+    },
     getId() {
       return Math.random() * 100;
     },
@@ -61,7 +61,7 @@ export default {
       const data = {
         id: this.id || this.getId,
         date: this.date || this.getCurrentDate,
-        // category,
+        category,
         value,
       };
       this.addFromForm(data);
@@ -69,20 +69,20 @@ export default {
       // this.$store.commit("addDataToPaymentList", data);
     },
   },
-  // async created() {
-  //   await this.fetchCategoryList();
-  //   if (this.$route.name === "AddDataFromUrl") {
-  //     this.value = Number(this.$route.query?.value) || 0;
-  //     this.category = this.$route?.params?.category || "";
-  //   }
-  // },
+  async created() {
+    await this.fetchCategoryList();
+    if (this.$route.name === "AddDataFromUrl") {
+      this.value = Number(this.$route.query?.value) || 0;
+      this.category = this.$route?.params?.category || "";
+    }
+  },
   mounted() {},
   updated() {
     if (this.settings !== null) {
       console.log("add_payment_form setting1 =", this.settings);
       this.id = this.settings.id;
       // this.date = this.settings.date;
-      // this.category = this.settings.category;
+      this.category = this.settings.category;
       this.value = this.settings.value;
     }
   },
