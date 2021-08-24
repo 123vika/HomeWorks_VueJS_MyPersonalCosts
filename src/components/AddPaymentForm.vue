@@ -44,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getDataFromForm"]),
+    ...mapGetters(["getDataFromForm", "getListLen"]),
     getCurrentDate() {
       const today = new Date();
       const day = today.getDate(); // getDay()
@@ -56,7 +56,8 @@ export default {
       return this.$store.getters.getCategories;
     },
     getId() {
-      return Math.random() * 100;
+      // return Math.random() * 100;
+      return this.$store.getters.getListLen + 1;
     },
   },
   methods: {
@@ -85,7 +86,7 @@ export default {
   },
   mounted() {},
   updated() {
-    if (this.settings !== null) {
+    if (this.settings !== null && this.id !== this.settings.id) {
       console.log("add_payment_form setting1 =", this.settings);
       this.id = this.settings.id;
       // this.date = this.settings.date;

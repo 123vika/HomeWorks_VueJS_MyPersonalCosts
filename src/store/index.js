@@ -28,6 +28,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getListLen: state => state.paymentsList.length,
     getPaymentsList: state => state.paymentsList,
     getFullPaymentValue: state => {
       return state.paymentsList.reduce((res, cur) => res + cur.value, 0);
