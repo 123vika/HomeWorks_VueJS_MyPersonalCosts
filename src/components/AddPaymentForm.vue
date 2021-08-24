@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <div v-on:submit.prevent>
+  <v-card class="text-left pa-8">
+    <v-text-field v-model="id" label="id" />
+    <v-text-field v-model="date" label="date" />
+    <v-text-field v-model.number="value" label="value" />
+    <v-select v-model="category" label="category" :items="options" />
+    <v-btn @click="onSave" name="btnClick">Save</v-btn>
+  </v-card>
+  <!-- <div v-on:submit.prevent>
       <input type="text" v-model="id" />
       <input type="date" v-model="date" />
       <select v-model="category" v-if="options">
@@ -11,10 +17,10 @@
 
       <input type="number" v-model.number="value" name="value" />
 
-      <button @click="onSave" :disabled="!category" name="btnClick">Save</button>
-      <!--  -->
-    </div>
-  </div>
+      <button @click="onSave" :disabled="!category" name="btnClick">
+        Save
+      </button>
+    </div> -->
 </template>
 
 <script>
@@ -33,8 +39,8 @@ export default {
     return {
       date: "",
       category: "",
-      value: "10",
-      id: "2",
+      value: "",
+      id: "",
     };
   },
   computed: {
@@ -67,6 +73,7 @@ export default {
       this.addFromForm(data);
       this.addDataToPaymentList(data);
       // this.$store.commit("addDataToPaymentList", data);
+      this.$emit('close');
     },
   },
   async created() {

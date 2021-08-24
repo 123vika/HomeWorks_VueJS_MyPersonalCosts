@@ -1,105 +1,41 @@
 <template>
-  <div id="app">
-    <div :class="[$style.links]">
-      <router-link to="/dashboard">Dashboard</router-link> /
-      <router-link to="/about">About</router-link> /
-      <router-link to="/food">Food</router-link> /
-    
-      <button @click="goToPage(404)">404</button>
-    </div>
-    <div class="content">
+  <v-app>
+    <v-app-bar 
+      app
+      flat
+      color="teal"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn to="/dashboard" plain :ripple="false">Dashboard </v-btn>
+
+      <v-btn to="/about" plain :ripple="false">About </v-btn>
+    </v-app-bar>
+
+    <v-main>
       <router-view />
-    </div>
-    <transition name="fade">
-      <modal-window-add-payment-form
-        v-if="modalShown"
-        :modalSettings="modalSettings"
-      />
-    </transition>
-    <edit v-show="editShow" :editSetting="editSettings1" />
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 export default {
   name: "App",
-  components: {
-    ModalWindowAddPaymentForm: () => import('./components/ModalWindowAddPaymentForm'),
-    Edit: () => import('./components/Edit'),
-  },
-  data() {
-    return {
-      pageName: "",
-      modalShown: false,
-      modalSettings: {},
-      editSettings: 0,
-      editSettings1: 0,
-      editShow: false,
-    };
-  },
 
-  methods: {
-    goToPage(pageName) {
-      this.$router.push({
-        name: pageName,
-      });
-    },
-    onShow(settings) {
-      this.modalSettings = settings;
-      this.modalShown = true;
-    },
-    onHide() {
-      this.modalShown = false;
-      this.modalSettings = {};
-    },
-    onShowEdit(id) {
-      // TODO !!!argument
-      this.editSettings1 = id;
-      // console.log("appEdit", id);
-      // console.log("appEdit1", this.editSettings1);
-      this.editShow = true;
-    },
-    onHideEdit() {
-      this.editSettings = {};
-      this.editShow = false;
-    },
-    onEditTableHide() {
-      this.editShow = false;
-    }
-   
-  },
-  mounted() {
-    this.$modal.EventBus.$on("show", this.onShow);
-    this.$modal.EventBus.$on("hide", this.onHide);
-    this.$edit.EventBus.$on("showEdit", this.onShowEdit);
-    this.$edit.EventBus.$on("editTable", this.editTable);
-    this.$edit.EventBus.$on("editTable1", this.onEditTableHide);
-  },
-  beforeDestroy() {
-    this.$modal.EventBus.$off("show", this.onShow);
-    this.$modal.EventBus.$off("hide", this.onHide);
-    this.$edit.EventBus.$off("showEdit", this.onShowEdit);
-    this.$edit.EventBus.$off("editTable", this.editTable);
-    this.$edit.EventBus.$off("editTable1", this.onEditTableHide);
-  },
+  data: () => ({
+    //
+  }),
 };
 </script>
-
-<style lang="scss" module>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
- <style lang="scss">
- .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
- </style>
