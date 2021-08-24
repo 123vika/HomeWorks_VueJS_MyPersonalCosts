@@ -4,6 +4,7 @@ import store from './store';
 import router from './router';
 import modal from './plugins/Modal';
 import edit from './plugins/Edit';
+import vuetify from './plugins/vuetify'
 
 
 
@@ -19,5 +20,6 @@ new Vue({
   store,
   router,
   modal,
+  vuetify,
   edit
 }).$mount('#app');

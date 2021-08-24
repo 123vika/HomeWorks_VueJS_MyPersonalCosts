@@ -1,10 +1,16 @@
 <template>
-  <div class="edit-comp">
-    Edit Component
-    <p @click="onEditTable(editSetting)">Edit</p>
-    <p>Delete</p>
-    <!-- <button @click="onCloseWindow">Close window</button> -->
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <div class="edit-comp">
+          Edit Component
+          <p @click="onEditTable(editSetting)"><v-icon>mdi-playlist-edit</v-icon>Edit</p>
+          <p><v-icon>mdi-delete</v-icon>Delete</p>
+          <!-- <button @click="onCloseWindow">Close window</button> -->
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

@@ -74,25 +74,25 @@ const router = new Router({
   ]
 });
 
-const isAuth = true;
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && !isAuth) {
-    next({
-      name: 'login'
-    });
-  } else {
-    next();
-  }
-});
+// const isAuth = true;
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'login' && !isAuth) {
+//     next({
+//       name: 'login'
+//     });
+//   } else {
+//     next();
+//   }
+// });
 
-const getTitleByRouteName = routeName => {
-  return {
-    'Dashboard': 'Page Dashboard',
-    'About': 'Page About',
-    '404': 'Not Found'
-  } [routeName];
-};
-router.afterEach((to) => {
-  document.title = getTitleByRouteName(to.name);
-});
+// const getTitleByRouteName = routeName => {
+//   return {
+//     'Dashboard': 'Page Dashboard',
+//     'About': 'Page About',
+//     '404': 'Not Found'
+//   } [routeName];
+// };
+// router.afterEach((to) => {
+//   document.title = getTitleByRouteName(to.name);
+// });
 export default router;
