@@ -28,6 +28,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getListLen: state => state.paymentsList.length,
     getPaymentsList: state => state.paymentsList,
     getFullPaymentValue: state => {
       return state.paymentsList.reduce((res, cur) => res + cur.value, 0);
@@ -72,6 +73,13 @@ export default new Vuex.Store({
       };
       commit("addDataFromForm", newData);
       // console.log(commit, newData, "I'm here");
-    }
-  }
+    },
+  
+
+    // For Test
+    // addData({commit}, payload){
+    //   console.log(commit, payload);
+    //   // commit('addDataToPaymentList');
+    // }
+  },
 });

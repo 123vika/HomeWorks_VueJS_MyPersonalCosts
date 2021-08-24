@@ -1,6 +1,7 @@
 <template>
   <div :class="[$style.wrapper]">
     <!-- <div>Dashboard</div>  -->
+    <calculator />
     <header>
       <div :class="[$style.tytle]">My Personal Cost</div>
     </header>
@@ -16,7 +17,7 @@
     <div>
       <add-payment-form
         :class="[$style.form]"
-        v-show="showFlag"
+        v-if="showFlag"
         @addNewPayment="addData"
         :settings="settingsid"
       />
@@ -45,6 +46,8 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 import AddPaymentForm from "../components/AddPaymentForm.vue";
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
 import Pagination from "../components/Pagination.vue";
+import Calculator from "../components/Calculator.vue";
+
 
 export default {
   name: "Dashboard",
@@ -52,6 +55,8 @@ export default {
     PaymentsDisplay,
     AddPaymentForm,
     Pagination,
+    Calculator,
+    // : () => import('./Calculator')
   },
   data() {
     return {
@@ -75,7 +80,7 @@ export default {
     addData(newPayment) {
       console.log(newPayment);
       this.addDataToPaymentList(newPayment);
-    }, 
+    },
     onChangePage(page) {
       console.log(page);
       this.cur = page;
@@ -88,17 +93,17 @@ export default {
     //   this.$store.commit("addNewCategoryToList", this.newCategory);
     // },
     showPaymentFormFn() {
-      this.$modal.show('AddPaymentForm', { header: "Add Payment Form"} );
+      this.$modal.show("AddPaymentForm", { header: "Add Payment Form" });
     },
     onEditTable(editSetting) {
       this.settingsid = editSetting;
       this.showFlag = true;
-      console.log('dashboard', editSetting);
+      console.log("dashboard", editSetting);
+      console.log("dashboard1", this.settingsid);
     },
     showAddCategoryForm() {
-      this.$modal.show('addCategory', { header: "Add new category form" });
-
-    }
+      this.$modal.show("addCategory", { header: "Add new category form" });
+    },
     //   showAddNewCategory(newCategory) {
     //     this.addNewCategory();
     //     if(this.newCategory === 'other') {
