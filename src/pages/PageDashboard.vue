@@ -16,7 +16,6 @@
 
     <div>
       <add-payment-form
-        
         :class="[$style.form]"
         v-if="showFlag"
         @addNewPayment="addData"
