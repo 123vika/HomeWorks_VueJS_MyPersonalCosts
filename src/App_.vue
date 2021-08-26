@@ -4,7 +4,7 @@
       <router-link to="/dashboard">Dashboard</router-link> /
       <router-link to="/about">About</router-link> /
       <router-link to="/food">Food</router-link> /
-    
+
       <button @click="goToPage(404)">404</button>
     </div>
     <div class="content">
@@ -15,17 +15,21 @@
         v-if="modalShown"
         :modalSettings="modalSettings"
       />
+      <edit v-if="editShow" :editSetting="editSettings1" />
     </transition>
-    <edit v-show="editShow" :editSetting="editSettings1" />
+    
   </div>
 </template>
 
 <script>
+import edit from ".plugins/Edit/index";
+
 export default {
   name: "App",
   components: {
-    ModalWindowAddPaymentForm: () => import('./components/ModalWindowAddPaymentForm'),
-    Edit: () => import('./components/Edit'),
+    ModalWindowAddPaymentForm: () =>
+      import("./components/ModalWindowAddPaymentForm"),
+    Edit: () => import("./components/Edit"),
   },
   data() {
     return {
@@ -55,7 +59,7 @@ export default {
     onShowEdit(id) {
       // TODO !!!argument
       this.editSettings1 = id;
-      // console.log("appEdit", id);
+      console.log("appEdit", id);
       // console.log("appEdit1", this.editSettings1);
       this.editShow = true;
     },
@@ -65,15 +69,15 @@ export default {
     },
     onEditTableHide() {
       this.editShow = false;
-    }
-   
+    },
   },
-  mounted() {
+  created() {
     this.$modal.EventBus.$on("show", this.onShow);
     this.$modal.EventBus.$on("hide", this.onHide);
     this.$edit.EventBus.$on("showEdit", this.onShowEdit);
     this.$edit.EventBus.$on("editTable", this.editTable);
     this.$edit.EventBus.$on("editTable1", this.onEditTableHide);
+    +
   },
   beforeDestroy() {
     this.$modal.EventBus.$off("show", this.onShow);
@@ -96,10 +100,12 @@ export default {
 }
 </style>
  <style lang="scss">
- .fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
- </style>
+</style>

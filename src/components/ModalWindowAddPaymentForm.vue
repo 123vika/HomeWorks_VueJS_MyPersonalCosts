@@ -1,16 +1,16 @@
 <template>
-  <div class="wrapper">
+  <v-dialog class="wrapper">
     <div class="header">{{ modalSettings.header }}</div>
     <div class="content">
-      <!-- <add-payment-form v-if="modalSettings.name === 'addPayment'"/>
-      <auth v-if="modalSettings.name === 'auth'"/>
+      <!-- <add-payment-form v-if="modalSettings.name === 'addPayment'"/> -->
+     <!--  <auth v-if="modalSettings.name === 'auth'"/>
       <add-category v-if="modalSettings.name === 'addCategory'"/> -->
       <component :is="modalSettings.name" />
     </div>
-    <div class="footer">
-      <button @click="onClose">Close</button>
-    </div>
-  </div>
+    <!-- <div class="footer"> -->
+      <v-btn @click="onClose">Close</v-btn>
+    <!-- </div> -->
+  </v-dialog>
 </template>  
 
 <script>

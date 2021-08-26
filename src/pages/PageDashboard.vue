@@ -21,7 +21,7 @@
                 :class="[$style.newCostBtn]"
                 @click="showFlag = !showFlag"
               >
-                ADD NEW COST <v-icon>mdi-plus</v-icon>
+              ADD NEW COST <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
 

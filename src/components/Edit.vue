@@ -1,16 +1,23 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <div class="edit-comp">
-          Edit Component
-          <p @click="onEditTable(editSetting)"><v-icon>mdi-playlist-edit</v-icon>Edit</p>
-          <p><v-icon>mdi-delete</v-icon>Delete</p>
+  <v-card>
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title>Edit Component</v-list-item-title>
+        <v-list-item-subtitle @click="onEditTable(editSetting)">
+          <v-icon>mdi-playlist-edit</v-icon>Edit
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <v-icon>mdi-delete</v-icon>Delete
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+    <v-btn @click="dialog=false">Close</v-btn>    
+          
+         
+          <!-- <p @click="onEditTable(editSetting)"><v-icon>mdi-playlist-edit</v-icon>Edit</p> -->
+          <!-- <p><v-icon>mdi-delete</v-icon>Delete</p> -->
           <!-- <button @click="onCloseWindow">Close window</button> -->
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+  </v-card>
 </template>
 
 <script>

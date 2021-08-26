@@ -20,6 +20,6 @@ new Vue({
   store,
   router,
   modal,
-  vuetify,
-  edit
+  edit,
+  vuetify
 }).$mount('#app');

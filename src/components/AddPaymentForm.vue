@@ -50,7 +50,7 @@ export default {
       const day = today.getDate(); // getDay()
       const month = today.getMonth() + 1;
       const year = today.getFullYear();
-      return `${day}.${month}.${year}`;
+      return `${year}-${month}-${day}`;
     },
     options() {
       return this.$store.getters.getCategories;

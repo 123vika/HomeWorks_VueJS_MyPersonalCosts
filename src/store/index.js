@@ -59,7 +59,7 @@ export default new Vuex.Store({
     }) {
       return new Promise((resolve) => {
         setTimeout(() => {
-          const categories = ['Sport', 'Food', 'Education', 'Internet', 'Other'];
+          const categories = ['Sport', 'Food', 'Education', 'Internet', 'Transport', 'Housing', 'Healthcare', 'Clothing', 'Other'];
           resolve(categories);
         }, 500);
       }).then(res => commit('setCategoriesListData', res));
