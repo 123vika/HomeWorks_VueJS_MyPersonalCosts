@@ -5,6 +5,7 @@
     <v-text-field v-model.number="value" label="value" />
     <v-select v-model="category" label="category" :items="options" />
     <v-btn @click="onSave" name="btnClick">Save</v-btn>
+    <v-btn v-if="mode === 'Edit'">Delete</v-btn>
   </v-card>
   <!-- <div v-on:submit.prevent>
       <input type="text" v-model="id" />
@@ -33,6 +34,7 @@ export default {
       Type: Object,
       default: null,
     },
+    mode: String
   },
 
   data() {

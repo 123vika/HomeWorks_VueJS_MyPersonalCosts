@@ -28,6 +28,7 @@
             <v-card>
               <add-payment-form @close="dialog=false"/>
             </v-card>
+            
           </v-dialog>
     
         <!-- <div>

@@ -1,11 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar 
-      app
-      flat
-      color="teal"
-      dark
-    >
+    <v-app-bar app flat color="teal" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -23,6 +18,7 @@
 
       <v-btn to="/about" plain :ripple="false">About </v-btn>
     </v-app-bar>
+      <edit v-if="editShow" :editSetting="editSettings1" />
 
     <v-main>
       <router-view />
@@ -31,11 +27,23 @@
 </template>
 
 <script>
+// import edit from ".plugins/Edit/index";
+
 export default {
   name: "App",
-
+  components: {
+    // ModalWindowAddPaymentForm: () =>
+    //   import("./components/ModalWindowAddPaymentForm"),
+    Edit: () => import("./components/Edit"),
+    // Edit
+  },
   data: () => ({
-  
+    editSettings: 0,
+    editSettings1: 0,
+    editShow: false,
   }),
+  methods: {  
+  },
+
 };
 </script>

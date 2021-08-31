@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-dialog v-model="dialog" width="500">
-      <template v-slot:activator="{ on }">
+    <!-- <v-dialog v-model="dialog" width="500"> -->
+      <!-- <template v-slot:activator="{ on }"> -->
         <v-row>
           <v-col cols="8">
             <v-row>
@@ -28,17 +28,39 @@
               <!-- <v-col cols="1"><button @click="onEditShow(item)">...</button></v-col> -->
             </v-row>
           </v-col>
+
+          <v-dialog v-model="dialog" width="500">
+            <!-- <template v-slot:activator="{ on }">
+              <v-btn
+                color="teal"
+                dark
+                v-on="on"
+                :class="[$style.newCostBtn]"
+                @click="showFlag = !showFlag"
+              >
+              ADD NEW COST <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template> -->
+
+            <v-card>
+              <add-payment-form @close="dialog=false" :settings="settings" :mode="'Edit'"/>
+            </v-card>
+            
+          </v-dialog>
+
         </v-row>
-      </template>
-    </v-dialog>
+      <!-- </template> -->
+    <!-- </v-dialog> -->
   </v-container>
 </template>
 
 <script>
 // import Edit from './components/Edit';
+import AddPaymentForm from "../components/AddPaymentForm.vue";
 export default {
   name: "PaymentsDisplay",
-  // components: { Edit },
+  components: { AddPaymentForm },
+
   props: {
     list: {
       type: Array,
@@ -46,14 +68,20 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      dialog: false,
+      settings: {},
+    };
   },
   methods: {
     onEditShow(item) {
       console.log("paymentShow11", item);
-      this.$edit.showEdit(item);
+      this.dialog = true;
+      this.settings = item;
+      // this.$edit.showEdit(item);
     },
   },
+ 
 };
 </script>
 

@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import edit from ".plugins/Edit/index";
+// import edit from ".plugins/Edit/index";
 
 export default {
-  name: "App",
+  name: "App_",
   components: {
     ModalWindowAddPaymentForm: () =>
       import("./components/ModalWindowAddPaymentForm"),
@@ -77,7 +77,6 @@ export default {
     this.$edit.EventBus.$on("showEdit", this.onShowEdit);
     this.$edit.EventBus.$on("editTable", this.editTable);
     this.$edit.EventBus.$on("editTable1", this.onEditTableHide);
-    +
   },
   beforeDestroy() {
     this.$modal.EventBus.$off("show", this.onShow);
